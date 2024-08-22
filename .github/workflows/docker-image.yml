@@ -28,9 +28,11 @@ jobs:
     - name: Docker build image
       run: |
         docker build -t fgbonta/docker-graphql:0.0.2 .
+        docker image tag fgbonta/docker-graphql:0.0.2 fgbonta/docker-graphql:latest
     - name: Docker push image
       run: |
-        docker push fgbonta/docker-graphql:0.0.2        
+        docker push fgbonta/docker-graphql:0.0.2
+        docker push fgbonta/docker-graphql:latest
         
     # - name: Build the Docker image
     #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
