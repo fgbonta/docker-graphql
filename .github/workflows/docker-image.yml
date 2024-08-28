@@ -28,19 +28,21 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        NEW_VERSION: ${{ steps.version.outputs.version }}
-      run: |
-        echo "New version: $NEW_VERSION !!!!!!"
+      run: |        
         echo "iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "finalizando login"
     - name: Docker build image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker build -t fgbonta/docker-graphql:0.0.2 .
-        docker image tag fgbonta/docker-graphql:0.0.2 fgbonta/docker-graphql:latest
+        docker build -t fgbonta/docker-graphql:$NEW_VERSION .
+        docker image tag fgbonta/docker-graphql:$NEW_VERSION fgbonta/docker-graphql:latest
     - name: Docker push image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker push fgbonta/docker-graphql:0.0.2
+        docker push fgbonta/docker-graphql:$NEW_VERSION
         docker push fgbonta/docker-graphql:latest
         
     # - name: Build the Docker image
